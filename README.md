@@ -54,13 +54,13 @@ For reference, original guides for running DNSmasq can be found here:
 
 
 ## 2.2 Define baseline rules to contain your normal firewall setup
-Before you use this _create baseline.nft under rules directory_ by issuing the following (as root)
+Before you use this *create baseline.nft under rules directory* by issuing the following (as root)
 ```
 echo "#!/usr/bin/nft -f" > rules/baseline.nft
 nft list ruleset >> rules/baseline.nft
 ```
 
-After that, adjust nftables rules to fit your environment. _At least_ check that IP ranges in script match your liking. Rules can be found in rules/\*.nft files
+After that, adjust nftables rules to fit your environment. *At least* check that IP ranges in script match your liking. Rules can be found in rules/\*.nft files
  
 ## 2.3 Create symlinks
 To easily use the scripts, you can create symlinks to e.g. /usr/local/bin for each script
