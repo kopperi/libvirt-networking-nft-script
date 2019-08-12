@@ -35,7 +35,7 @@ All scripts take argument up or down, and nothing else. All have same steps.
 2) Bring network interface DOWN, and remove the interface
 3) Flush the rules previously added by UP argument and set rules according to baseline.nft
 
-# 2. Prerequisisties for these to work
+# 2. Installation steps
 ## 2.1 DNSmasq service configuration
 DNSmasq configuration can be summed up with following. 
 ```
@@ -62,10 +62,18 @@ nft list ruleset >> rules/baseline.nft
 
 After that, adjust nftables rules to fit your environment. _At least_ check that IP ranges in script match your liking. Rules can be found in rules/\*.nft files
  
-## 2.3 Configuring your VMs to use right kind of network (Mandatory) 
+## 2.3 Create symlinks
+To easily use the scripts, you can create symlinks to e.g. /usr/local/bin for each script
+```
+#E.g.
+ln -s $HOME/git/libvirt-networking-nft-script/set_bridge_nft set-bridge
+```
+After this, you can use the scripts as you would any other command, e.g. set-bridge up.
+
+## 2.4 Configuring your VMs to use right kind of network (Mandatory) 
 Last step is to configure your virtualmachine to use the network. Instructions below concern only workin on QEMU/KVM. These should work on other virtualized environments as well (e.g. VMWare and Virtualbox), though I haven't tested them personally.
 
-### 2.3.1 Configuration of libvirt VM (Qemu/KVM)
+### 2.4.1 Configuration of libvirt VM (Qemu/KVM)
 Virtualmachines in Qemu/KVM won't start if your configured network device doesn't exist. You can use virt-manager GUI to define used network interfaces or you can use virsh edit <Virtualmachine ID> to perform changes to VM's XML.
 
 If you want to use virsh edit. following should be added (or replaced) in your libvirt VM's configuration file. You can find the missing information (INTERFACE_MAC_ADDRESS and INTERFACE_NAME) in function file set_(nat/iso/bridge) at same place where you configure the parameters.
