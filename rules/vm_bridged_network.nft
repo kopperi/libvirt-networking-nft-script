@@ -1,0 +1,19 @@
+#This ruleset is for bridged vm network
+#!/usr/sbin/nft -f 
+
+#Variables
+define interface = virbr-bridge
+define ip_cidr = 192.168.3.1/24
+
+#Input rules
+insert rule ip filter INPUT iifname $interface counter accept
+
+#Forward rules
+insert rule ip filter FORWARD iifname $interface counter reject
+insert rule ip filter FORWARD oifname $interface counter reject
+insert rule ip filter FORWARD iifname $interface oifname $interface counter accept
+insert rule ip filter FORWARD iifname $interface ip saddr $ip_cidr counter accept
+insert rule ip filter FORWARD oifname $interface counter accept
+
+#Output rules
+insert rule ip filter OUTPUT oifname $interface counter accept

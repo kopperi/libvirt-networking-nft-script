@@ -1,0 +1,20 @@
+#This ruleset is for isolated vm network
+#!/usr/sbin/nft -f 
+
+#Variables
+define interface = virbr-iso
+define ip_cidr = 10.0.2.1/24
+
+
+#Input rules
+insert rule ip filter INPUT iifname $interface ip saddr $ip_cidr tcp sport {53,67} counter accept 
+insert rule ip filter INPUT iifname $interface ip saddr $ip_cidr udp sport {53,67} counter accept 
+
+#Forward rules
+insert rule ip filter FORWARD iifname $interface counter reject
+insert rule ip filter FORWARD oifname $interface counter reject
+insert rule ip filter FORWARD iifname $interface oifname $interface counter accept
+
+#Output rules
+insert rule ip filter OUTPUT oifname $interface ip daddr $ip_cidr counter accept 
+

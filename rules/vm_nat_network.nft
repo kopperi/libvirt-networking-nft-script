@@ -1,0 +1,27 @@
+#This ruleset is for vm NAT network
+#!/usr/sbin/nft -f
+
+#Variables
+define interface = virbr-nat            
+define ip_cidr = 192.168.100.1/24       
+
+#Input rules
+insert rule ip filter INPUT iif $interface udp dport {53,67} counter accept
+insert rule ip filter INPUT iif $interface tcp dport {53,67} counter accept
+
+#Forward rules
+insert rule ip filter FORWARD oif $interface counter reject
+insert rule ip filter FORWARD iif $interface counter reject
+insert rule ip filter FORWARD ip saddr $ip_cidr iif $interface counter accept
+insert rule ip filter FORWARD oif $interface iif $interface counter accept
+insert rule ip filter FORWARD ip daddr $ip_cidr oif $interface ct state established,related counter accept
+
+#Output rules
+insert rule ip filter OUTPUT oif $interface counter accept
+
+#Post-routing rules
+#Don't masquerade these reserved address blocks
+add rule ip nat POSTROUTING ip saddr $ip_cidr ip daddr 224.0.0.0/24 counter return
+add rule ip nat POSTROUTING ip saddr $ip_cidr ip daddr 225.255.255.255/32 counter return
+#Masquarade all packets going from VMs to LAN/Internet
+add rule ip nat POSTROUTING ip saddr $ip_cidr ip daddr != $ip_cidr counter masquerade
