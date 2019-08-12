@@ -5,7 +5,7 @@ readonly interface=virbr-bridge         #Virtual interface which is going to be 
 readonly mac_add=52:54:00:7b:9d:a5      #Randomly chosen mac address
 readonly ip_cidr=192.168.3.1/24       #IP for virtual interface 
 readonly ip_broad=192.168.3.255       #Broadcast address for the network
-readonly ruleset_path=$HOME/git/libvirt-networking-nft-scripts/rules
+readonly ruleset_path=$HOME/git/libvirt-networking-nft-script/rules
 readonly ruleset=vm_bridged_network.nft
 readonly baseline_ruleset=baseline.nft
 
