@@ -70,7 +70,7 @@ _iface_down () {
 #########Execute scrIPt###########
 
 if [[ $EUID -gt 0 ]]; then
-	printf "ScrIPt must be run as root. Exiting\n"
+	printf "Script must be run as root. Exiting\n"
 	exit 1;
 fi
 

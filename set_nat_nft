@@ -5,7 +5,7 @@ readonly interface=virbr-nat            #Virtual interface which is going to be 
 readonly mac_add=52:54:00:4b:7d:a3      #Randomly chosen mac address
 readonly ip_cidr=192.168.100.1/24       #IP for virtual interface 
 readonly ip_broad=192.168.100.255       #Broadcast address for the network
-readonly ruleset_path=$HOME/libvirt-networking-nft-script/rules
+readonly ruleset_path=$HOME/git/libvirt-networking-nft-script/rules
 readonly ruleset=vm_nat_network.nft
 readonly baseline_ruleset=baseline.nft
 
